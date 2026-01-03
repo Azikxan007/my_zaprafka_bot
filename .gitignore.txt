@@ -1,0 +1,16 @@
+# Virtual muhit
+.venv/
+venv/
+env/
+
+# PyCharm va IDE sozlamalari
+.idea/
+.vscode/
+
+# Maxfiy fayl (Token shu ichida)
+config.py
+.env
+
+# Vaqtinchalik fayllar
+__pycache__/
+*.pyc
