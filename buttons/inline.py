@@ -2,6 +2,8 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from data import db
 
+# Avtomashinani databasedan olib button shaklga ozgartirib beradi
+
 def avto_num_button():
     markup = InlineKeyboardMarkup(row_width=3)
     result = db.select_avto_tigach()
@@ -10,12 +12,22 @@ def avto_num_button():
         number, rusun = res
         btn = InlineKeyboardButton(f"{number} | {rusun}", callback_data=f"{number}")
         btns.append(btn)
-    btn_go_back = InlineKeyboardButton("Back", callback_data="Back_01_01")
-    markup.add(*btns, btn_go_back)
+    markup.add(*btns)
+    return markup
+
+def del_avto_num_button():
+    markup = InlineKeyboardMarkup(row_width=3)
+    result = db.select_avto_tigach()
+    btns = []
+    for res in result:
+        number, rusun = res
+        btn = InlineKeyboardButton(f"{number} | {rusun}", callback_data=f"{number}|del3")
+        btns.append(btn)
+    markup.add(*btns)
     return markup
 
 
-
+# Viloyat nomlarini databaseda olib button shakliga ozgartirib beradi
 
 def county_button():
     markup = InlineKeyboardMarkup(row_width=2)
@@ -28,6 +40,20 @@ def county_button():
     markup.add(*btns)
     return markup
 
+def del_county_button():
+    markup = InlineKeyboardMarkup(row_width=2)
+    result = db.select_county()
+    btns = []
+    for res in result:
+        for county in res:
+            btn = InlineKeyboardButton(f"{county}", callback_data=f"{county}|del1")
+            btns.append(btn)
+    markup.add(*btns)
+    return markup
+
+
+# Xaydovchilarni databasedan olib button shaklga otkazib beradi
+
 def driver_button():
     markup = InlineKeyboardMarkup(row_width=2)
     result = db.select_driver()
@@ -39,11 +65,30 @@ def driver_button():
             i = full_name.split(" ")[1]
         except Exception as a:
             f, i, s, h = full_name.split(" ")
-            print(a)
-        btn = InlineKeyboardButton(f"{f, i}", callback_data = f"driver:{id_number}")
+        btn = InlineKeyboardButton(f"{f} {i}", callback_data = f"driver:{id_number}")
         btns.append(btn)
     markup.add(*btns)
     return markup
+
+def del_driver_button():
+    markup = InlineKeyboardMarkup(row_width=2)
+    result = db.select_driver()
+    btns = []
+    for res in result:
+        id_number, full_name = res
+        try:
+            f = full_name.split(" ")[0]
+            i = full_name.split(" ")[1]
+        except Exception as a:
+            f, i, s, h = full_name.split(" ")
+        btn = InlineKeyboardButton(f"{f} {i}", callback_data = f"{id_number}|del2")
+        btns.append(btn)
+    markup.add(*btns)
+    return markup
+
+
+
+
 
 def selection_yes_no_button_sender():
     markup = InlineKeyboardMarkup(row_width=2)
@@ -62,7 +107,7 @@ def selection_yes_no_button_receiver():
 def select_fuel_id():
     markup = InlineKeyboardMarkup(row_width=2)
     btn1 = InlineKeyboardButton("Chiqim qilish", callback_data="fuel_output")
-    btn2 = InlineKeyboardButton("Kirim qilish", callback_data="fuel_expense")
+    btn2 = InlineKeyboardButton("Kirim qilish", callback_data="fuel_input")
     markup.add(btn1, btn2)
     return markup
 
@@ -117,4 +162,12 @@ def quantity_distance_buttons(current_distance=0, amount=None, action=None):
     markup.add(btn1, btn2, btn3, btn4, btn5, btn6)
     markup.add(btn7)
     markup.add(btn8, btn9, btn10, btn11, btn12, btn13)
+    return markup
+
+def managers_buttons():
+    managers_id = db.select_all_menegers()
+    markup = InlineKeyboardMarkup(row_width=4)
+    for manager in managers_id:
+        btn = InlineKeyboardButton(text=manager, callback_data=f"del|manager|{manager}")
+        markup.add(btn)
     return markup
