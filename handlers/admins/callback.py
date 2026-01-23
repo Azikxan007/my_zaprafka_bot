@@ -360,7 +360,7 @@ def check_selection_yes_no_button_sender(call: CallbackQuery):
 
 
     elif res == 'No_sender':
-        bot.send_message(chat_id, f"Nimani xato qildingiz?\nIltimos boshqatdan boshlang")
+        bot.edit_message_text(chat_id=chat_id, message_id=message_id,  text=f"Nimani xato qildingiz?\nIltimos boshqatdan boshlang")
         del DATA[id_num]
 
 @bot.callback_query_handler(func=lambda call: call.data in ["Yes_receiver", "No_receiver"])
@@ -389,15 +389,16 @@ def check_selection_yes_no_button_receiver(call: CallbackQuery):
         del DATA[id_num]
 
     else:
+        bot.delete_message(drivers_chat_id, message_id)
         msg = bot.send_message(drivers_chat_id, f"Nimasi xato\n"
                                                   f"Iltimos izoh bering")
         bot.register_next_step_handler(msg, checking_the_driver_description, id_num, from_user_id)
+
 def checking_the_driver_description(message: Message, id_num, from_user_id):
     chat_id = message.chat.id
     message_id = message.message_id
     description = message.text
     rc_at = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
-    # from_user_id = list(DATA.keys())[0]
     if isinstance(description, str):
         db.update_table_fuel_output_driver(chat_id, 0, description, rc_at, row_id=id_num)
         bot.edit_message_text(chat_id=chat_id,
@@ -410,10 +411,4 @@ def checking_the_driver_description(message: Message, id_num, from_user_id):
                               f"Haydovchi: {driver_name(DATA[id_num][from_user_id]["drivers"])}\n"
                               f"Avtomashinaga quyilgan yoqilgi: {DATA[id_num][from_user_id]["fuel_quantity"]}\n"
                               f"Avtomashinaning spidonametr ko'rsatkichi: {DATA[id_num][from_user_id]["walking_distance"]}")
-        del DATA[id_num]
-    # else:
-    #     msg = bot.send_message(chat_id, f"Iltimos izohni yozing fayl yubormang")
-    #     bot.register_next_step_handler(msg, checking_the_driver_description, id_num, from_user_id)
-
-
-# @bot.callback_query_handler(func=lambda call: call.data == "Yes_receiver")
+    del DATA[id_num]
