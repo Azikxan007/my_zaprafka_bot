@@ -4,7 +4,7 @@ from datetime import datetime
 from telebot.types import Message, BotCommand, BotCommandScopeChat, BotCommandScopeDefault
 from data import bot, db
 
-from buttons.datatimes import month
+
 from buttons.inline import select_fuel_id, del_county_button, del_driver_button, del_avto_num_button
 
 from handlers.admins.texthandlers import check_driver_number_id, check_machines_number, check_driver_number, chek_parol, \
@@ -69,7 +69,7 @@ def start(message: Message):
         bot.register_next_step_handler(msg, check_driver_number_id)
 
 @bot.message_handler(commands=['help'])
-def help(message: Message):
+def help_message(message: Message):
     chat_id = message.chat.id
     bot.send_message(chat_id, "Men hali o'lganim yoq tirikman")
 
