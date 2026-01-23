@@ -155,6 +155,10 @@ class DataBasa:
         sql = """DROP TABLE IF EXISTS fuel_info"""
         self.manager(sql, commit=True)
 
+    def delete_table_fuel_info(self):
+        sql = """DELETE FROM fuel_info"""
+        self.manager(sql, commit=True)
+
     def update_table_fuel_output(self, out_or_in, user_id_sender, data, machine_number, county_name, driver_name, fuel_liters, walking_distance, created_at, row_id):
         sql = """UPDATE fuel_info SET out_or_in = ?, user_id_sender = ?, data = ?, machine_number = ?, county_name = ?, driver_name = ?, fuel_liters = ?, walking_distance = ?, created_at = ? WHERE id = ?"""
         self.manager(sql, out_or_in , user_id_sender, data, machine_number, county_name, driver_name, fuel_liters, walking_distance, created_at, row_id, commit=True)

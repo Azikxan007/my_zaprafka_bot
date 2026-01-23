@@ -26,10 +26,16 @@ ADMINS = db.select_all_admins()
 for manager_id in MANAGERS:
     bot.set_my_commands(
         commands=[
+            BotCommand("start", "Botni ishga tushurish"),
             BotCommand("admins", "Admin buyruqlari"),
-            BotCommand("add_machines", "Avtomashina davlat raqamini qoshish"),
+            BotCommand("help", "O'lmaganligini tekshirish"),
+            BotCommand("getdb", "Malumotlar bazasi nusxasini olish"),
+            BotCommand("add_machines", "Avtomashina davlat raqamini qo'shish"),
+            BotCommand("del_machines", "Avtomashina davlat raqamini o'chirish"),
             BotCommand("add_county", "Viloyatlarni qoshish"),
+            BotCommand("del_county", "Viloyatlarni o'chirish"),
             BotCommand("add_driver", "Haydovchilarni qo'shish")
+            BotCommand("del_driver", "Haydovchilarni o'chirish")
         ],
         scope=BotCommandScopeChat(manager_id)
 
@@ -37,7 +43,8 @@ for manager_id in MANAGERS:
 
 bot.set_my_commands(
     commands=[
-    BotCommand("start", "Botni ishga tushurish")
+    BotCommand("start", "Botni ishga tushurish"),
+    BotCommand("admins", "Admin panelga o'tish")
     ],
     scope=BotCommandScopeDefault()
 )
@@ -51,15 +58,14 @@ def start(message: Message):
     chat_id = message.chat.id
     full_name = message.from_user.full_name
     if chat_id in ADMINS:
-        bot.send_message(chat_id, f"Assalomu alaykum {full_name}\nAdmin panelga hush kelibsiz")
-        bot.send_message(chat_id, "Yoqilgi", reply_markup=select_fuel_id())
+        bot.send_message(chat_id, f"Assalomu alaykum {full_name}\n hush kelibsiz\nBiror amalni bajarish uchun /admin buyrug'ini kiriting")
 
     elif chat_id in MANAGERS:
         pass
 
     else:
         msg = bot.send_message(chat_id, f"Assalomu alaykum {full_name}\n"
-                                  f"Iltimos tasdiqlanish uchun Jshshr ni kiriting")
+                                  f"Iltimos tasdiqlanish uchun JShShIR ni kiriting")
         bot.register_next_step_handler(msg, check_driver_number_id)
 
 @bot.message_handler(commands=['help'])
@@ -102,6 +108,15 @@ def send_db(message):
     else:
         bot.send_message(chat_id, "Sizga bunday ma'lumot berilmaydi!!!")
 
+
+@bot.message_handler(commands=['del_info'])
+def del_info(message: Message):
+    chat_id = message.chat.id
+    if chat_id in MANAGERS:
+        db.delete_table_fuel_info()
+        bot.send_message(chat_id, "Yoqilgi malumotlari o'chirildi")
+    else:
+        bot.send_message(chat_id, "Sizga bunday malumotni boshqarishga yo'l qo'ymaymiz")
 
 
 @bot.message_handler(commands=['add_machines'])
@@ -172,6 +187,8 @@ def del_admin(message: Message):
     if chat_id in MANAGERS:
         msg = bot.send_message(chat_id, "Iltimos adminning telegram user id raqamini kiriting")
         bot.register_next_step_handler(msg, del_admin)
+    else:
+        bot.send_message(chat_id, "error kod 404")
 
 @bot.message_handler(commands=['add_admin'])
 def insert_admin(message: Message):
