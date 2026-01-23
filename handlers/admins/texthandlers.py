@@ -132,7 +132,7 @@ def check_admin_id(message: Message):
 
 # Databasedan adminni o'chirish jarayonini tekshirish
 
-def del_admin(message: Message):
+def check_del_admin(message: Message):
     chat_id = message.chat.id
     admin_id = message.text
     if isinstance(admin_id, str):
