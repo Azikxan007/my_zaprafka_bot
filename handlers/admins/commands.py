@@ -62,6 +62,11 @@ def start(message: Message):
                                   f"Iltimos tasdiqlanish uchun Jshshr ni kiriting")
         bot.register_next_step_handler(msg, check_driver_number_id)
 
+@bot.message_handler(commands=['help'])
+def help(message: Message):
+    chat_id = message.chat.id
+    bot.send_message(chat_id, "Men hali o'lganim yoq tirikman")
+
 
 @bot.message_handler(commands=['admins'])
 def admins(message: Message):
