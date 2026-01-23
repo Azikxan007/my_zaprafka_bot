@@ -34,7 +34,7 @@ for manager_id in MANAGERS:
             BotCommand("del_machines", "Avtomashina davlat raqamini o'chirish"),
             BotCommand("add_county", "Viloyatlarni qoshish"),
             BotCommand("del_county", "Viloyatlarni o'chirish"),
-            BotCommand("add_driver", "Haydovchilarni qo'shish")
+            BotCommand("add_driver", "Haydovchilarni qo'shish"),
             BotCommand("del_driver", "Haydovchilarni o'chirish")
         ],
         scope=BotCommandScopeChat(manager_id)
