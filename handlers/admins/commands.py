@@ -185,7 +185,7 @@ def add_meneger(message: Message):
 def del_admin(message: Message):
     chat_id = message.chat.id
     if chat_id in MANAGERS:
-        msg = bot.send_message(chat_id, "Iltimos adminni tanlang", reply_markup=admins_buttons())
+        bot.send_message(chat_id, "Iltimos adminni tanlang", reply_markup=admins_buttons())
     else:
         bot.send_message(chat_id, "error kod 404")
 
