@@ -167,6 +167,11 @@ def delete_county(call: CallbackQuery):
         db.delete_avto_tigach(machine_number)
         bot.send_message(chat_id, "Mashina muvaffaqiyatli o'chirildi")
 
+    elif call.data.split("|")[0] == "del4":
+        admin_id = call.data.split("|")[2]
+        db.delete_admin(admin_id)
+        bot.send_message(chat_id, "Admin muvaffaqiyatli o'chirildi")
+
 
 
 @bot.callback_query_handler(func=lambda call: call.data in county_func())

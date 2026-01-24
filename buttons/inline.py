@@ -165,9 +165,9 @@ def quantity_distance_buttons(current_distance=0, amount=None, action=None):
     return markup
 
 def managers_buttons():
-    managers_id = db.select_all_menegers()
-    markup = InlineKeyboardMarkup(row_width=4)
-    for manager in managers_id:
-        btn = InlineKeyboardButton(text=manager, callback_data=f"del|manager|{manager}")
+    admins_id = db.select_all_admins()
+    markup = InlineKeyboardMarkup(row_width=1)
+    for admin in admins_id:
+        btn = InlineKeyboardButton(text=admin, callback_data=f"del4|admin|{admin}")
         markup.add(btn)
     return markup

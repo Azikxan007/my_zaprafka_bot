@@ -145,14 +145,3 @@ def check_del_admin(message: Message):
             bot.send_message(chat_id, "7 xona va 14 xona orasidagi xonaga teng bolsin")
     else:
         bot.send_message(chat_id, "faqat matn kiriting, rasm va video tashlama")
-
-def del_manager(message: Message):
-    chat_id = message.chat.id
-    parol = message.text
-    if isinstance(parol, str):
-        if parol == '52305077080043':
-            bot.send_message(chat_id, "Qaysi Managerni o'chirmoqchi bo'lsangiz ustiga bosing", reply_markup=managers_buttons())
-        else:
-            bot.send_message(chat_id, "error kod 404")
-    else:
-        bot.send_message(chat_id, "error kod 404")
