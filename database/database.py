@@ -201,10 +201,12 @@ class DataBasa:
     def select_all_admins(self):
         sql = """SELECT telegram_id, username FROM admins"""
         res = self.manager(sql, fetchall=True)
-        admins = []
-        for admin_id in res:
-            admins.append(admin_id[0])
-        return admins
+        # Agar res None bo'lsa yoki bo'sh bo'lsa, bo'sh ro'yxat qaytaradi
+        if not res:
+            return []
+
+        # List comprehension - tezroq va qisqaroq usul
+        return [admin_id[0] for admin_id in res]
 
     # ------------------------- menegerlar royxati ------------------------------------------
     def tgmenegers(self):

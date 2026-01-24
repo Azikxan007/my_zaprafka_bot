@@ -5,7 +5,7 @@ from telebot.types import Message, BotCommand, BotCommandScopeChat, BotCommandSc
 from data import bot, db
 
 
-from buttons.inline import select_fuel_id, del_county_button, del_driver_button, del_avto_num_button
+from buttons.inline import select_fuel_id, del_county_button, del_driver_button, del_avto_num_button, admins_buttons
 
 from handlers.admins.texthandlers import check_driver_number_id, check_machines_number, check_driver_number, chek_parol, \
     check_admin_id, check_del_admin
@@ -185,7 +185,7 @@ def add_meneger(message: Message):
 def del_admin(message: Message):
     chat_id = message.chat.id
     if chat_id in MANAGERS:
-        msg = bot.send_message(chat_id, "Iltimos adminni tanlang", reply_markup=lls)
+        msg = bot.send_message(chat_id, "Iltimos adminni tanlang", reply_markup=admins_buttons())
         bot.register_next_step_handler(msg, check_del_admin)
     else:
         bot.send_message(chat_id, "error kod 404")

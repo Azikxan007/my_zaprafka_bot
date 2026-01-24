@@ -164,7 +164,7 @@ def quantity_distance_buttons(current_distance=0, amount=None, action=None):
     markup.add(btn8, btn9, btn10, btn11, btn12, btn13)
     return markup
 
-def managers_buttons():
+def admins_buttons():
     admins_id = db.select_all_admins()
     markup = InlineKeyboardMarkup(row_width=1)
     for admin in admins_id:
