@@ -1,9 +1,8 @@
 from datetime import datetime
 
 from telebot.types import CallbackQuery, Message
-from data import bot, db
+from data import bot
 from buttons import *
-from config import ADMINS
 
 DATA = {}
 
@@ -40,13 +39,15 @@ def driver_name(driver_id_number):
 @bot.callback_query_handler(func=lambda call: call.data == "fuel_output")
 def fuel_output(call : CallbackQuery):
     chat_id = call.message.chat.id
-    if chat_id in ADMINS:
+    current_admins = db.select_all_admins()
+    if chat_id in current_admins:
         bot.send_message(chat_id, "Qaysi oyga chiqim qilmoqchisiz?", reply_markup=month(1))
 
 @bot.callback_query_handler(func=lambda call: call.data == "fuel_input")
 def fuel_input(call : CallbackQuery):
+    current_admins = db.select_all_admins()
     chat_id = call.message.chat.id
-    if chat_id in ADMINS:
+    if chat_id in current_admins:
         bot.send_message(chat_id, "Qaysi oyga kirim qilmoqchisiz?", reply_markup=month(0))
 
 

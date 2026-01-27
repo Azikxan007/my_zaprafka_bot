@@ -20,7 +20,7 @@ db_path = os.path.join(base_dir, 'database', 'main.db')
 
 # from config import ADMINS
 MANAGERS = db.select_all_menegers()
-ADMINS = db.select_all_admins()
+
 
 
 for manager_id in MANAGERS:
