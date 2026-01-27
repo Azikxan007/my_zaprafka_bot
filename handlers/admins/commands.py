@@ -18,6 +18,7 @@ base_dir = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path)))
 # 3. Asosiy papkadan database/main.db ga yo'l chizamiz
 db_path = os.path.join(base_dir, 'database', 'main.db')
 
+import pytz
 # from config import ADMINS
 MANAGERS = db.select_all_menegers()
 
@@ -97,12 +98,16 @@ def send_db(message):
             return
 
         try:
+            tashkent_tz = pytz.timezone('Asia/Tashkent')
+            tashkent_now = datetime.now(tashkent_tz)
+            formatted_time = tashkent_now.strftime('%d.%m.%Y %H:%M:%S')
+
             with open(db_path, 'rb') as f:
                 bot.send_document(
                     chat_id=chat_id,
                     document=f,
-                    caption=f"Baza nusxasi\nVaqt: {datetime.now().strftime('%H:%M:%S')}",
-                    timeout=60  # Katta fayllar uchun vaqtni uzaytiramiz
+                    caption=f"📂 Baza nusxasi\n🕒 Vaqt: {formatted_time}",
+                    timeout=60
                 )
         except Exception as e:
             bot.send_message(chat_id, f"Faylni yuborishda texnik xato: {e}")
