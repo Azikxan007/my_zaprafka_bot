@@ -28,7 +28,7 @@ def check_driver_number_id(message: Message):
             if driver_number.isdigit():
                 if int(driver_number) in ids_num:
                     db.update_table_driver(telegram_id, driver_number)
-                    full_name = db.select_driver_user_id(driver_number)
+                    full_name = db.select_driver_name(driver_number)
                     bot.send_message(chat_id, f"{full_name[0]} Tabriklayman"
                                               "Chat id ma'lumotlar omboriga muvaffaqiyatli qo'shildi")
                 else:
