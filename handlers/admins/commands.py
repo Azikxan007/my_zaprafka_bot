@@ -78,7 +78,8 @@ def help_message(message: Message):
 def admins(message: Message):
     chat_id = message.chat.id
     full_name = message.from_user.full_name
-    if chat_id in ADMINS or chat_id in MANAGERS:
+    current_admins = db.select_all_admins()
+    if chat_id in current_admins or chat_id in MANAGERS:
         bot.send_message(chat_id, f"Assalomu alaykum {full_name}\nAdmin panelga hush kelibsiz")
         bot.send_message(chat_id, "Yoqilgi", reply_markup=select_fuel_id())
 
